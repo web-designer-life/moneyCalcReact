@@ -7,10 +7,11 @@ const History = ({ transactions, delTransaction }) => (
     <ul className='history__list'>
         {transactions.map(item =>
             <HistoryItem 
-            key={item.id}
-            transaction={item}
-            delTransaction={delTransaction}
-        />)}
+                key={item.id}
+                transaction={item}
+                delTransaction={delTransaction}
+            />
+        )}
     </ul>
     </section>
 );

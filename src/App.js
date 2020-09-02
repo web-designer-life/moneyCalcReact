@@ -5,83 +5,83 @@ import Operation from './components/operation/Operation';
 
 class App extends Component {
 
-        state = {
+    state = {
         transactions: JSON.parse(localStorage.getItem('calcMoney1')) || [],
         description: '',
-        amount: '',
+        amount: 0,
         resultIncome: 0,
         resultExpenses: 0,
         totalBalance: 0,
-        };
-    
-        componentWillMount() {
+    };
+
+    componentWillMount() {
         this.getTotalBalance();
-        }
-    
-        componentDidUpdate() {
+    }
+
+    componentDidUpdate() {
         this.addStorage();
-        }
-    
-        addTransaction = add => {
-    
-        const transactions = [
-            ...this.state.transactions,
-            {
+    }
+
+    addTransaction = add => {
+
+    const transactions = [
+        ...this.state.transactions,
+        {
             id: `cmr${(+new Date()).toString(16)}`,
             description: this.state.description,
             amount: parseFloat(this.state.amount),
             add
-            }
-        ];
-    
-        this.setState({
-            transactions,
-            description: '',
-            amount: '',
-        }, () => {
-            this.getTotalBalance();
-            this.addStorage();
-        })
         }
-    
-        addAmount = e => {
+    ];
+
+    this.setState({
+        transactions,
+        description: '',
+        amount: '0',
+    }, () => {
+        this.getTotalBalance();
+        this.addStorage();
+    })
+    }
+
+    addAmount = e => {
         this.setState({ amount: e.target.value });
-        };
-    
-        addDescription = e => {
+    };
+
+    addDescription = e => {
         this.setState({ description: e.target.value });
-        };
-    
-        getIncome = () => this.state.transactions
-            .reduce((acc, item) => item.add ? item.amount + acc : acc, 0);
-    
-        getExpenses = () => this.state.transactions
-            .reduce((acc, item) => !item.add ? item.amount + acc: acc, 0);
-    
-        getTotalBalance() {
+    };
+
+    getIncome = () => this.state.transactions
+        .reduce((acc, item) => item.add ? item.amount + acc : acc, 0);
+
+    getExpenses = () => this.state.transactions
+        .reduce((acc, item) => !item.add ? item.amount + acc: acc, 0);
+
+    getTotalBalance() {
+
         const resultIncome = this.getIncome();
         const resultExpenses = this.getExpenses();
-    
+
         const totalBalance = resultIncome - resultExpenses;
-    
-        this.setState(
-            {
+
+        this.setState({
             resultIncome,
             resultExpenses,
             totalBalance, 
-            });
-        }
-    
-        addStorage () {
+        });
+    }
+
+    addStorage () {
         localStorage.setItem('calcMoney1', JSON.stringify(this.state.transactions));
-        }
-    
-        delTransaction = id => {
+    }
+
+    delTransaction = id => {
         const transactions = this.state.transactions.filter(item => item.id !== id)
         this.setState({ transactions }, this.getTotalBalance)
-        }
-    
-        render() {
+    }
+
+    render() {
         return (
             <>
             <header>
@@ -91,12 +91,14 @@ class App extends Component {
     
             <main>
                 <div className='container'>
-                <Total resultExpenses={this.state.resultExpenses}
-                        resultIncome={this.state.resultIncome}
-                        totalBalance={this.state.totalBalance}
+                <Total 
+                    resultExpenses={this.state.resultExpenses}   
+                    resultIncome={this.state.resultIncome}   
+                    totalBalance={this.state.totalBalance}
                 />
-                <History transactions={this.state.transactions}
-                        delTransaction={this.delTransaction}
+                <History 
+                    transactions={this.state.transactions}
+                    delTransaction={this.delTransaction}
                 />
                 <Operation
                     addTransaction={this.addTransaction}

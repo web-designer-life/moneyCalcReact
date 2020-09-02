@@ -10,8 +10,8 @@ const HistoryItem = ({ transaction, delTransaction }) => {
             {transaction.description}
             <span className='history__money'>{transaction.amount} ₽</span>
             <button 
-            className='history__delete' 
-            onClick={() => delTransaction(transaction.id)}
+                className='history__delete' 
+                onClick={() => delTransaction(transaction.id)}
             >x</button>
         </li>
     );
